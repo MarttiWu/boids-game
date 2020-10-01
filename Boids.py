@@ -4,25 +4,25 @@ import math
 import numpy as np
 
 radius=60
-
+popsize=50
 
 pg.init()
 screen = pg.display.set_mode((800,600))
 pg.display.set_caption("Boids Simulation")
-background = pg.image.load('sky.jpg')
+background = pg.image.load('images/sky.jpg')
 background.convert()
 screen.blit(background,(0,0))
 
 bdimgsize=(20,20)
 
-img = {'Ebird':pg.transform.scale(pg.image.load('Ebird.png'), bdimgsize),
-        'Wbird':pg.transform.scale(pg.image.load('Wbird.png'), bdimgsize),
-        'Sbird':pg.transform.scale(pg.image.load('Sbird.png'), bdimgsize),
-        'Nbird':pg.transform.scale(pg.image.load('Nbird.png'), bdimgsize),
-        'NEbird':pg.transform.scale(pg.image.load('NEbird.png'), bdimgsize),
-        'NWbird':pg.transform.scale(pg.image.load('NWbird.png'), bdimgsize),
-        'SEbird':pg.transform.scale(pg.image.load('SEbird.png'), bdimgsize),
-        'SWbird':pg.transform.scale(pg.image.load('SWbird.png'), bdimgsize)
+img = {'Ebird':pg.transform.scale(pg.image.load('images/Ebird.png'), bdimgsize),
+        'Wbird':pg.transform.scale(pg.image.load('images/Wbird.png'), bdimgsize),
+        'Sbird':pg.transform.scale(pg.image.load('images/Sbird.png'), bdimgsize),
+        'Nbird':pg.transform.scale(pg.image.load('images/Nbird.png'), bdimgsize),
+        'NEbird':pg.transform.scale(pg.image.load('images/NEbird.png'), bdimgsize),
+        'NWbird':pg.transform.scale(pg.image.load('images/NWbird.png'), bdimgsize),
+        'SEbird':pg.transform.scale(pg.image.load('images/SEbird.png'), bdimgsize),
+        'SWbird':pg.transform.scale(pg.image.load('images/SWbird.png'), bdimgsize)
 }
 
 class Bird(pg.sprite.Sprite):
@@ -42,14 +42,14 @@ class Bird(pg.sprite.Sprite):
         self.neighbors = []
         
     def draw(self):
-        if self.x>1360:
-            self.x -= 1360
-        if self.x<40:
-            self.x += 1360
-        if self.y>860:
-            self.y -= 860
-        if self.y<40:
-            self.y += 860
+        if self.x>800:
+            self.x -= 800
+        if self.x<0:
+            self.x += 800
+        if self.y>600:
+            self.y -= 600
+        if self.y<0:
+            self.y += 600
             
         if self.dx>0 and self.dy>0:
             self.image = img['SEbird']
@@ -72,7 +72,7 @@ class Bird(pg.sprite.Sprite):
         self.x += self.dx
         self.y += self.dy
         
-    def get_neighbors(self,other):
+    def find_neighbors(self,other):
         self.neighbors.clear()
         for o in other:
             if o!=self:
@@ -111,20 +111,21 @@ class Bird(pg.sprite.Sprite):
         aV/=len(self.neighbors)
         return aV
         
-    def update_dir(self,other):
-        self.get_neighbors(other)
+    def update_direction(self,other):
+        self.find_neighbors(other)
         V = np.zeros(2)
         V += self.cohension()
         V += self.separation()
         V += self.alignment()
-        #V /= 3
+        V /= 3
+        
         if int(V[0]) or int(V[1]):
             self.dx = int(V[0])
             self.dy = int(V[1])
 
-popsize=100
 
-numbers = list(range(-10,-1)) + list(range(1,10))
+
+numbers = list(range(-15,-1)) + list(range(1,15))
 
 birds = [Bird(random.randint(40,1360),random.choice(numbers),random.randint(40,860),random.choice(numbers)) for i in range(popsize)]
 
@@ -139,7 +140,7 @@ clock = pg.time.Clock()
 
 running = True
 while running:
-    clock.tick(30)
+    clock.tick(40)
     for e in pg.event.get():
         if e.type == pg.QUIT:
             running = False
@@ -149,7 +150,7 @@ while running:
         bird.draw()
 
     for bird in birds:
-        bird.update_dir(birds)
+        bird.update_direction(birds)
     boids.draw(screen)
     pg.display.update()
 pg.quit()
