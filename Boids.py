@@ -1,3 +1,10 @@
+//
+//  Boids.py
+//
+//  Created by WU,MENG-TING on 2020/10/1.
+//  Copyright © 2020 WU,MENG-TING. All rights reserved.
+//
+
 import pygame as pg
 import random
 import math
