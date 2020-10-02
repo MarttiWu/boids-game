@@ -15,4 +15,18 @@ Open terminal
         
 # Behaviors
 
-![alt text]()
+Alignment
+
+![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/alignment.png)
+
+Cohension
+
+![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/cohension.png)
+
+Separation
+
+![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/separation.png)
+
+Obstacles
+
+![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/obstacle.png)
