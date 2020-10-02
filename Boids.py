@@ -3,8 +3,16 @@ import random
 import math
 import numpy as np
 
-radius=60
-popsize=50
+radius=40
+popsize=100
+maxspeed=5.0
+
+def norm(v):
+    sum = np.zeros(1).astype('float128')
+    for i in range(len(v)):
+        sum += v[i]**2
+    return sum**0.5
+        
 
 pg.init()
 screen = pg.display.set_mode((800,600))
@@ -42,14 +50,24 @@ class Bird(pg.sprite.Sprite):
         self.neighbors = []
         
     def draw(self):
+        
         if self.x>800:
-            self.x -= 800
+            self.x = 0
         if self.x<0:
-            self.x += 800
+            self.x = 800
         if self.y>600:
-            self.y -= 600
+            self.y = 0
         if self.y<0:
-            self.y += 600
+            self.y = 600
+        '''
+        if self.x>780 or self.x<0:
+            self.dx = -self.dx
+            self.x += self.dx
+
+        if self.y>580 or self.y<0:
+            self.dy = -self.dy
+            self.y += self.dy
+        '''
             
         if self.dx>0 and self.dy>0:
             self.image = img['SEbird']
@@ -80,7 +98,8 @@ class Bird(pg.sprite.Sprite):
                     self.neighbors.append(o)
                     
     def cohension(self):
-        cV = np.zeros(2)
+        cV = np.zeros(2).astype('float128')
+        print('type', type(cV[0]))
         if not self.neighbors:
             return cV
         for n in self.neighbors:
@@ -89,35 +108,71 @@ class Bird(pg.sprite.Sprite):
         cV/=len(self.neighbors)
         cV[0]-=self.x
         cV[1]-=self.y
+        
+        uu = np.linalg.norm(cV)
+        if uu==0:
+            uu=0.01
+                
+        cV = (cV/uu)*maxspeed
+        #cV = (cV/np.linalg.norm(cV))*maxspeed
+        
+        #cV = (cV/norm(cV))*maxspeed
+        #print(cV)
         return cV
         
     def separation(self):
-        sV = np.zeros(2)
+        sV = np.zeros(2).astype('float128')
         if not self.neighbors:
             return sV
         for n in self.neighbors:
             sV[0]+=self.x-n.x
             sV[1]+=self.y-n.y
         sV/=len(self.neighbors)
+        
+        uu = np.linalg.norm(sV)
+        if uu==0:
+            uu=0.1
+                
+        sV = (sV/uu)*maxspeed
+        
+        #sV = (sV/np.linalg.norm(sV))*maxspeed
+        #sV = (sV/norm(sV))*maxspeed
         return sV
         
     def alignment(self):
-        aV = np.zeros(2)
+        aV = np.zeros(2).astype('float128')
         if not self.neighbors:
             return aV
         for n in self.neighbors:
             aV[0]+=n.dx
             aV[1]+=n.dy
         aV/=len(self.neighbors)
+        
+        uu = np.linalg.norm(aV)
+        if uu==0:
+            uu=0.1
+                
+        aV = (aV/uu)*maxspeed
+        
+        #aV = (aV/np.linalg.norm(aV))*maxspeed
+        #aV = (aV/norm(aV))*maxspeed
         return aV
         
     def update_direction(self,other):
         self.find_neighbors(other)
-        V = np.zeros(2)
+        V = np.zeros(2).astype('float128')
         V += self.cohension()
         V += self.separation()
         V += self.alignment()
-        V /= 3
+        
+        uu = np.linalg.norm(V)
+        if uu==0:
+            uu=0.1
+                
+        V = (V/uu)*maxspeed
+        
+        #V = (V/np.linalg.norm(V))*maxspeed
+        #V = (V/norm(V))*maxspeed
         
         if int(V[0]) or int(V[1]):
             self.dx = int(V[0])
@@ -130,7 +185,7 @@ numbers = list(range(-15,-1)) + list(range(1,15))
 birds = [Bird(random.randint(40,1360),random.choice(numbers),random.randint(40,860),random.choice(numbers)) for i in range(popsize)]
 
 boids = pg.sprite.Group()
-print(type(boids))
+#print(type(boids))
 
 for bird in birds:
     boids.add(bird)
