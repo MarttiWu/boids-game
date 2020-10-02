@@ -23,7 +23,6 @@ bdimgsize=(20,20) #bird image size
 obimgsize = (30,30) #obstacle image size
 #####
 
-
 #initialize window
 pg.init()
 screen = pg.display.set_mode((800,600))
@@ -32,6 +31,26 @@ background = pg.image.load('images/sky.jpg')
 background.convert()
 screen.blit(background,(0,0))
 
+'''
+    buttons' parameters...
+'''
+#############
+color = (255,255,255)
+
+st_light = (170,170,170)
+st_dark = (100,100,100)
+
+re_light = (255,102,102)
+re_dark = (255,0,0)
+
+ob_light = (51,255,255)
+ob_dark = (0,204,204)
+
+qu_light = (32,32,32)
+qu_dark = (0,0,0)
+
+buttonfont = pg.font.SysFont('Arial',20)
+###############
 
 #load images
 img = {'Ebird':pg.transform.scale(pg.image.load('images/Ebird.png'), bdimgsize),
@@ -189,7 +208,6 @@ class Bird(pg.sprite.Sprite):
                 col = True
         return col
 
-
 def init_boids():
     birds = [Bird(random.randint(40,1360),random.choice(numbers),random.randint(40,860),random.choice(numbers)) for i in range(popsize)]
 
@@ -199,14 +217,9 @@ def init_boids():
         boids.add(bird)
         
     return birds,boids
+ 
+##################################################
 
-clock = pg.time.Clock()
-
-
-
-obstacles = []
-
-OBSTACLE = pg.sprite.Group()
 class Obstacle(pg.sprite.Sprite):
     def __init__(self,x,y):
         super().__init__()
@@ -218,30 +231,18 @@ class Obstacle(pg.sprite.Sprite):
     def draw(self):
         self.rect.center = (self.x,self.y)
 
+def init_obs():
+    obstacles = []
+    OBSTACLE = pg.sprite.Group()
+    return obstacles,OBSTACLE
 
-'''
-    buttons' parameters...
-'''
-#############
-color = (255,255,255)
 
-st_light = (170,170,170)
-st_dark = (100,100,100)
 
-re_light = (255,102,102)
-re_dark = (255,0,0)
-
-ob_light = (51,255,255)
-ob_dark = (0,204,204)
-
-qu_light = (32,32,32)
-qu_dark = (0,0,0)
-
-buttonfont = pg.font.SysFont('Arial',20)
-###############
-
+clock = pg.time.Clock()
 
 birds,boids = init_boids()
+obstacles,OBSTACLE = init_obs()
+
 running = True
 START=False
 OBon=False
@@ -297,7 +298,7 @@ while running:
     
     mouse = pg.mouse.get_pos()
     '''
-        Functional buttons
+        Display buttons
     '''
     #Quit button
     if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
@@ -323,7 +324,6 @@ while running:
     else:
         pg.draw.rect(screen,ob_dark,[450,560,100,20])
     screen.blit(buttonfont.render('Obstacle' , True , color) , (450+20,560+3))
-    
     
     pg.display.update()
 pg.quit()
