@@ -1,34 +1,31 @@
-//
-//  Boids.py
-//
-//  Created by WU,MENG-TING on 2020/10/1.
-//  Copyright © 2020 WU,MENG-TING. All rights reserved.
-//
+'''
+  Boids.py
+
+  Created by WU,MENG-TING on 2020/10/1.
+  Copyright © 2020 WU,MENG-TING. All rights reserved.
+'''
 
 import pygame as pg
 import random
 import math
 import numpy as np
 
-'''
-    boids behavior parameters
-'''
-#####
+#######################################
+###    boids behavior parameters    ###
+#######################################
 a_radius=50
 s_radius=20
 c_radius=40
 popsize=100
 maxspeed=5.0
 numbers = list(range(-15,-1)) + list(range(1,15))
-#####
 
-'''
-    image size
-'''
-#####
+#######################
+###    image size   ###
+#######################
 bdimgsize=(20,20) #bird image size
 obimgsize = (30,30) #obstacle image size
-#####
+
 
 #initialize window
 pg.init()
@@ -38,26 +35,20 @@ background = pg.image.load('images/sky.jpg')
 background.convert()
 screen.blit(background,(0,0))
 
-'''
-    buttons' parameters...
-'''
-#############
+###################################
+###    buttons' parameters...   ###
+###################################
 color = (255,255,255)
-
 st_light = (170,170,170)
 st_dark = (100,100,100)
-
 re_light = (255,102,102)
 re_dark = (255,0,0)
-
 ob_light = (51,255,255)
 ob_dark = (0,204,204)
-
 qu_light = (32,32,32)
 qu_dark = (0,0,0)
-
 buttonfont = pg.font.SysFont('Arial',20)
-###############
+
 
 #load images
 img = {'Ebird':pg.transform.scale(pg.image.load('images/Ebird.png'), bdimgsize),
