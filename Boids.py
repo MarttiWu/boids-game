@@ -182,23 +182,73 @@ class Bird(pg.sprite.Sprite):
 
 numbers = list(range(-15,-1)) + list(range(1,15))
 
-birds = [Bird(random.randint(40,1360),random.choice(numbers),random.randint(40,860),random.choice(numbers)) for i in range(popsize)]
+def init_boids():
+    birds = [Bird(random.randint(40,1360),random.choice(numbers),random.randint(40,860),random.choice(numbers)) for i in range(popsize)]
 
-boids = pg.sprite.Group()
-#print(type(boids))
+    boids = pg.sprite.Group()
 
-for bird in birds:
-    boids.add(bird)
-    print(bird)
+    for bird in birds:
+        boids.add(bird)
+        
+    return birds,boids
 
 clock = pg.time.Clock()
 
+
+
+
+def drawob():
+    mouses = pg.mouse.get_pos()
+
+    size=(50,50)
+    ob = pg.Surface(size)
+    ob.fill((255,255,255))
+    pg.draw.rect(ob, (255,0,0), ob.get_rect())
+    rect = ob.get_rect()
+    ob.fill((255,255,255))
+    #rect.center = (mouses[0],mouses[1])
+    
+    rect.centerx = mouses[0]
+    rect.centery = mouses[1]
+
+
+
+
+#############
+color = (255,255,255)
+
+color_light = (170,170,170)
+  
+color_dark = (100,100,100)
+  
+smallfont = pg.font.SysFont('Arial',20)
+
+###############
+
+
+birds,boids = init_boids()
 running = True
 while running:
     clock.tick(40)
     for e in pg.event.get():
         if e.type == pg.QUIT:
             running = False
+        if e.type == pg.MOUSEBUTTONDOWN:
+            if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
+                pg.quit()
+            if 100 <= mouse[0] <= 200 and 560 <= mouse[1] <= 580:
+                birds,boids = init_boids()
+        
+    
+    
+    
+    
+    #buttons = pg.mouse.get_pressed()
+    #if buttons[0]:
+    #    drawob()
+        
+            
+            
     screen.blit(background,(0,0))
     for bird in birds:
         #print('hi')
@@ -206,6 +256,26 @@ while running:
 
     for bird in birds:
         bird.update_direction(birds)
+
     boids.draw(screen)
+    
+    
+    
+    mouse = pg.mouse.get_pos()
+    ####
+    if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
+        pg.draw.rect(screen,color_light,[600,560,100,20])
+    else:
+        pg.draw.rect(screen,color_dark,[600,560,100,20])
+    screen.blit(smallfont.render('Quit' , True , color) , (600+35,560+3))
+    
+    if 100 <= mouse[0] <= 200 and 560 <= mouse[1] <= 580:
+        pg.draw.rect(screen,color_light,[100,560,100,20])
+    else:
+        pg.draw.rect(screen,color_dark,[100,560,100,20])
+    screen.blit(smallfont.render('Restart' , True , color) , (100+30,560+3))
+    #####
+    
+    
     pg.display.update()
 pg.quit()
