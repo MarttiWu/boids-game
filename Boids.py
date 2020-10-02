@@ -13,7 +13,7 @@ numbers = list(range(-15,-1)) + list(range(1,15))
 
 pg.init()
 screen = pg.display.set_mode((800,600))
-pg.display.set_caption("Boids Simulation")
+pg.display.set_caption("Boids Game")
 background = pg.image.load('images/sky.jpg')
 background.convert()
 screen.blit(background,(0,0))
