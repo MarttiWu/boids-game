@@ -11,8 +11,8 @@ This Boids Game is implemented in python which sumulates the flocking behavior o
 
 Open terminal
 
-        #python3 Boids.py
+        python3 Boids.py
         
-# Images
+# Behaviors
 
 ![alt text]()
