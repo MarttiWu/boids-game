@@ -78,7 +78,7 @@ class Bird(pg.sprite.Sprite):
         self.cneighbors = []
         self.sneighbors = []
         
-    def draw(self):
+    def draw(self,obstacles):
         #goes to the other side when reaches the boundaries
         if self.x>800:
             self.x = 0
@@ -234,94 +234,99 @@ def init_obs():
     OBSTACLE = pg.sprite.Group()
     return obstacles,OBSTACLE
 
+##################################################
 
+def main():
+    clock = pg.time.Clock()
 
-clock = pg.time.Clock()
+    birds,boids = init_boids()
+    obstacles,OBSTACLE = init_obs()
 
-birds,boids = init_boids()
-obstacles,OBSTACLE = init_obs()
-
-running = True
-START=False
-OBon=False
-while running:
-    clock.tick(40)
-    for e in pg.event.get():
-        if e.type == pg.QUIT:
-            running = False
-            
-        if e.type == pg.MOUSEBUTTONDOWN and OBon:
-            pos = pg.mouse.get_pos()
-            if 0 <= pos[1] <= 540:
-                ob = Obstacle(pos[0],pos[1])
-                obstacles.append(ob)
-                OBSTACLE.add(ob)
-            
-        if e.type == pg.MOUSEBUTTONDOWN:
-            if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
-                pg.quit()
+    running = True
+    START=False
+    OBon=False
+    while running:
+        clock.tick(40)
+        for e in pg.event.get():
+            if e.type == pg.QUIT:
+                running = False
                 
-            if 100 <= mouse[0] <= 200 and 560 <= mouse[1] <= 580:
-                START=True
+            if e.type == pg.MOUSEBUTTONDOWN and OBon:
+                pos = pg.mouse.get_pos()
+                if 0 <= pos[1] <= 540:
+                    ob = Obstacle(pos[0],pos[1])
+                    obstacles.append(ob)
+                    OBSTACLE.add(ob)
                 
-            if 250 <= mouse[0] <= 350 and 560 <= mouse[1] <= 580:
-                birds,boids = init_boids()
-                obstacles.clear()
-                OBSTACLE.empty()
-                START=True
-                OBon=False
+            if e.type == pg.MOUSEBUTTONDOWN:
+                if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
+                    pg.quit()
+                    
+                if 100 <= mouse[0] <= 200 and 560 <= mouse[1] <= 580:
+                    START=True
+                    
+                if 250 <= mouse[0] <= 350 and 560 <= mouse[1] <= 580:
+                    birds,boids = init_boids()
+                    obstacles.clear()
+                    OBSTACLE.empty()
+                    START=True
+                    OBon=False
+                    
+                if 450 <= mouse[0] <= 550 and 560 <= mouse[1] <= 580:
+                    OBon=True
                 
-            if 450 <= mouse[0] <= 550 and 560 <= mouse[1] <= 580:
-                OBon=True
-            
-    screen.blit(background,(0,0))
-    '''
-        Game start
-    '''
-    if START:
-    
-        for ob in obstacles:
-            ob.draw()
+        screen.blit(background,(0,0))
+        '''
+            Game start
+        '''
+        if START:
         
-        OBSTACLE.draw(screen)
+            for ob in obstacles:
+                ob.draw()
+            
+            OBSTACLE.draw(screen)
+            
+            for bird in birds:
+                bird.draw(obstacles)
+                
+            for bird in birds:
+                bird.update_direction(birds)
+                
+            boids.draw(screen)
         
-        for bird in birds:
-            bird.draw()
-            
-        for bird in birds:
-            bird.update_direction(birds)
-            
-        boids.draw(screen)
-    
-    
-    mouse = pg.mouse.get_pos()
-    '''
-        Display buttons
-    '''
-    #Quit button
-    if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
-        pg.draw.rect(screen,qu_light,[600,560,100,20])
-    else:
-        pg.draw.rect(screen,qu_dark,[600,560,100,20])
-    screen.blit(buttonfont.render('Quit' , True , color) , (600+35,560+3))
-    #Start button
-    if 100 <= mouse[0] <= 200 and 560 <= mouse[1] <= 580:
-        pg.draw.rect(screen,st_light,[100,560,100,20])
-    else:
-        pg.draw.rect(screen,st_dark,[100,560,100,20])
-    screen.blit(buttonfont.render('Start' , True , color) , (100+30,560+3))
-    #Restart button
-    if 250 <= mouse[0] <= 350 and 560 <= mouse[1] <= 580:
-        pg.draw.rect(screen,re_light,[250,560,100,20])
-    else:
-        pg.draw.rect(screen,re_dark,[250,560,100,20])
-    screen.blit(buttonfont.render('Restart' , True , color) , (250+30,560+3))
-    #Obstacle button
-    if 450 <= mouse[0] <= 550 and 560 <= mouse[1] <= 580:
-        pg.draw.rect(screen,ob_light,[450,560,100,20])
-    else:
-        pg.draw.rect(screen,ob_dark,[450,560,100,20])
-    screen.blit(buttonfont.render('Obstacle' , True , color) , (450+20,560+3))
-    
-    pg.display.update()
-pg.quit()
+        
+        mouse = pg.mouse.get_pos()
+        '''
+            Display buttons
+        '''
+        #Quit button
+        if 600 <= mouse[0] <= 700 and 560 <= mouse[1] <= 580:
+            pg.draw.rect(screen,qu_light,[600,560,100,20])
+        else:
+            pg.draw.rect(screen,qu_dark,[600,560,100,20])
+        screen.blit(buttonfont.render('Quit' , True , color) , (600+35,560+3))
+        #Start button
+        if 100 <= mouse[0] <= 200 and 560 <= mouse[1] <= 580:
+            pg.draw.rect(screen,st_light,[100,560,100,20])
+        else:
+            pg.draw.rect(screen,st_dark,[100,560,100,20])
+        screen.blit(buttonfont.render('Start' , True , color) , (100+30,560+3))
+        #Restart button
+        if 250 <= mouse[0] <= 350 and 560 <= mouse[1] <= 580:
+            pg.draw.rect(screen,re_light,[250,560,100,20])
+        else:
+            pg.draw.rect(screen,re_dark,[250,560,100,20])
+        screen.blit(buttonfont.render('Restart' , True , color) , (250+30,560+3))
+        #Obstacle button
+        if 450 <= mouse[0] <= 550 and 560 <= mouse[1] <= 580:
+            pg.draw.rect(screen,ob_light,[450,560,100,20])
+        else:
+            pg.draw.rect(screen,ob_dark,[450,560,100,20])
+        screen.blit(buttonfont.render('Obstacle' , True , color) , (450+20,560+3))
+        
+        pg.display.update()
+        
+        
+if __name__=='__main__':
+    main()
+    pg.quit()
