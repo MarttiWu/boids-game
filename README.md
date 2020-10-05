@@ -17,19 +17,17 @@ Open terminal
 
 ## Alignment
 
-![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/alignment.png)
+![alt text](results/alignment.png)
 
 ## Cohension
 
-![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/cohension.png)
+![alt text](results/cohension.png)
 
 ## Separation
 
-![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/separation.png)
+![alt text](results/separation.png)
 
 ## Obstacles
 
-![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/obstacle.png)
-
-![alt text](results/cohension.png)
+![alt text](results/obstacles.png)
 
