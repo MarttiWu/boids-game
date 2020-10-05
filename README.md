@@ -29,5 +29,5 @@ Open terminal
 
 ## Obstacles
 
-![alt text](results/obstacles.png)
+![alt text](results/obstacle.png)
 
