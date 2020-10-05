@@ -30,3 +30,6 @@ Open terminal
 ## Obstacles
 
 ![alt text](https://github.com/MarttiWu/boids-game/blob/master/results/obstacle.png)
+
+![alt text](results/cohension.png)
+
