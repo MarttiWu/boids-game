@@ -5,7 +5,7 @@ It simulates the flocking behaviour of birds.
 
 Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
 
-This Boids Game is implemented in python which sumulates the flocking behavior of birds and also the reaction when bumping into obstacles.
+This Boids Game is implemented in python which simulates the flocking behavior of birds and also the reaction when bumping into obstacles.
 
 # Usage
 
