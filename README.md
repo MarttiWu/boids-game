@@ -16,15 +16,21 @@ Open terminal
 # Behaviors
 
 ## Alignment
+Steer towards the average heading of local flockmates.
 
+Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
 ![alt text](results/alignment.png)
 
 ## Cohension
+Steer to move towards the average position of local flockmates.
 
+Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
 ![alt text](results/cohension.png)
 
 ## Separation
+Steer to avoid crowding local flockmates.
 
+Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
 ![alt text](results/separation.png)
 
 ## Obstacles
