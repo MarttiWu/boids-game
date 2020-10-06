@@ -47,7 +47,7 @@ ob_light = (51,255,255)
 ob_dark = (0,204,204)
 qu_light = (32,32,32)
 qu_dark = (0,0,0)
-buttonfont = pg.font.SysFont('Arial',20)
+buttonfont = pg.font.SysFont('Arial',16)
 
 
 #load images
