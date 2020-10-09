@@ -129,7 +129,7 @@ class Bird(pg.sprite.Sprite):
                 if math.dist([self.x,self.y],[o.x,o.y]) < a_radius:
                     self.aneighbors.append(o)
                     
-    def cohension(self):
+    def cohesion(self):
         cV = np.zeros(2)
         if not self.cneighbors:
             return cV
@@ -185,7 +185,7 @@ class Bird(pg.sprite.Sprite):
     def update_direction(self,other):
         self.find_neighbors(other)
         V = np.zeros(2)
-        V += self.cohension()
+        V += self.cohesion()
         V += self.separation()
         V += self.alignment()
         #prevent divided by 0
