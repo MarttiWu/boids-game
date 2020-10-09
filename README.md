@@ -22,7 +22,7 @@ Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
 
 ![alt text](results/alignment.png)
 
-## Cohension
+## Cohesion
 Steer to move towards the average position of local flockmates.
 
 Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
