@@ -27,7 +27,7 @@ Steer to move towards the average position of local flockmates.
 
 Reference:  [Boids](https://en.wikipedia.org/wiki/Boids)
 
-![alt text](results/cohension.png)
+![alt text](results/cohesion.png)
 
 ## Separation
 Steer to avoid crowding local flockmates.
